@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blur Bar</title>
+    <link href="popup.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="popup-wrapper">
+      <div class="error-message">
+        There was a problem loading blur bar, please reload and try again
+      </div>
+      <article class="container">
+        <div class="version"></div>
+        <div class="controls">
+          <div class="title-wrapper">
+            <h2>Controls:</h2>
+          </div>
+          <p2 class="p2 settings-text">
+            Press <strong>"S"</strong> or <strong>Hover</strong> over the top
+            left box within the rectangle to hide the Blur Bar.
+          </p2>
+        </div>
+
+        <div class="settings-container">
+          <div class="title-wrapper">
+            <h2 class="settings-text">Settings:</h2>
+          </div>
+          <form class="settings-form">
+            <div class="checkbox">
+              <div class="input-section">
+                <input
+                  type="checkbox"
+                  value="height-limit"
+                  class="height-check input"
+                /><label for="height-limit" class="label height-text">
+                  Height limit
+                </label>
+              </div>
+              <div class="input-section on-hover-container">
+                <input
+                  type="checkbox"
+                  value="pause-on-hover"
+                  class="pause-on-hover input"
+                />
+                <label class="label hover-text"> Pause on hide </label>
+              </div>
+              <div class="input-section slider-wrapper">
+                <div class="slider-container">
+                  <div class="slider-info">Video Rewind:</div>
+                  <div class="slider-value-container">
+                    <input
+                      type="range"
+                      min="0"
+                      max="5"
+                      value="1"
+                      class="scrub-slider"
+                      id="myRange"
+                      step="0.25"
+                    />
+                    <div class="slider-value">0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="settings-enter-container">
+              <button class="settings-enter">Refresh</button>
+              <p>Refresh the page to see changes</p>
+            </div>
+          </form>
+        </div>
+      </article>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
