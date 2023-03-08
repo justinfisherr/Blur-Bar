@@ -5,7 +5,7 @@ Blur Bar is a Google Chrome Extension that allows you to embed an adjustable blu
 
 - JavaScript
 - CSS
-- Sass
+- HTML
 - Google Chrome Api
 
 # Usage
