@@ -4,7 +4,7 @@
   "description": "A simple yet powerful tool to place an adjustable blur bar that covers a YouTube videos embedded subtitles!",
 
   "permissions": ["storage"],
-  "version": "2.9",
+  "version": "3.0",
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
