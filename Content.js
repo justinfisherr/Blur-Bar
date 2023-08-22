@@ -18,12 +18,14 @@ function addBtn() {
   blurBtn.className = "blur";
   blurBtn.type = "button";
   blurBtn.title = "Blur Bar";
+  //player-full-bleed-container
+  let videoContainer = document.querySelector("#player-full-bleed-container");
 
-  let youtubeController = document.querySelectorAll(".ytp-right-controls");
-  index = youtubeController.length === 2 ? 1 : 0;
-  youtubeController = youtubeController[index];
-
-  youtubeController.insertBefore(blurBtn, youtubeController.childNodes[0]);
+  if (videoContainer) {
+    let youtubeController = videoContainer.querySelector(".ytp-right-controls");
+    if (!youtubeController) throw Error("err");
+    youtubeController.insertBefore(blurBtn, youtubeController.childNodes[0]);
+  }
 
   return blurBtn;
 }
@@ -327,30 +329,35 @@ function inject() {
   });
 
   injected = true;
-
+  console.log("injected!");
   chrome.storage.local.set({
     error: false,
   });
 }
-function handleInjectError(injectInterval) {
-  chrome.storage.local.set({
-    error: true,
-  });
-  clearInterval(injectInterval);
-  blurBtn.style.backgroundImage = "url('https://imgur.com/FugUuij')";
-  blurBtn.title = "Blur Bar is not working. Please try again.";
-}
 
+function tryInjectionWithRetries() {
+  let intervalTries = 0;
+
+  const injectInterval = setInterval(() => {
+    if (intervalTries >= 3) {
+      clearInterval(injectInterval);
+    }
+
+    ++intervalTries;
+
+    if (injected) {
+      clearInterval(injectInterval);
+    } else {
+      inject();
+    }
+  }, 500);
+}
 //Injects our CSS into youtube on navigate
 document.body.addEventListener("yt-navigate-finish", () => {
   const includes = window.location.href.includes("watch");
-  let intervalTries = 1;
+
   if (includes && !injected) {
-    let injectInterval = setInterval(() => {
-      intervalTries === 3 ? handleInjectError(injectInterval) : null;
-      ++intervalTries;
-      injected ? clearInterval(injectInterval) : inject();
-    }, 500);
+    tryInjectionWithRetries();
   } else if (injected) {
     let blurBar = document.getElementsByClassName("blur-bar")[0];
     let blurBtn = document.getElementsByClassName("blur")[0];
