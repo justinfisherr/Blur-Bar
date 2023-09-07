@@ -13,21 +13,22 @@ chrome.storage.local.set({
 });
 
 function addBtn() {
-  let blurBtn = document.createElement("button");
+  let blurBtns = []; // Create an array to store the buttons
 
-  blurBtn.className = "blur";
-  blurBtn.type = "button";
-  blurBtn.title = "Blur Bar";
-  //player-full-bleed-container
-  let videoContainer = document.querySelector("#player-full-bleed-container");
+  let controls = document.querySelectorAll(".ytp-right-controls");
+  controls.forEach((controlMenu) => {
+    let blurBtn = document.createElement("button");
 
-  if (videoContainer) {
-    let youtubeController = videoContainer.querySelector(".ytp-right-controls");
-    if (!youtubeController) throw Error("err");
-    youtubeController.insertBefore(blurBtn, youtubeController.childNodes[0]);
-  }
+    blurBtn.className = "blur";
+    blurBtn.type = "button";
+    blurBtn.title = "Blur Bar";
 
-  return blurBtn;
+    controlMenu.insertBefore(blurBtn, controlMenu.firstChild);
+
+    blurBtns.push(blurBtn); // Add the button to the array
+  });
+
+  return blurBtns; // Return the array of buttons
 }
 
 function addBlurBar() {
@@ -179,10 +180,10 @@ function adjustMaximumHeight(video, blurBar) {
 
 function inject() {
   let blurBar;
-  let blurBtn;
+  let blurBtns = [];
 
   try {
-    blurBtn = addBtn();
+    blurBtns = addBtn();
     blurBar = addBlurBar();
   } catch {
     document.querySelector(".blur").remove();
@@ -277,7 +278,10 @@ function inject() {
 
   videoStream.addEventListener("ended", () => {
     blurBar.style.display = "none";
-    blurBtn.style.backgroundImage = "url('https://i.imgur.com/xG4zQb3.png')";
+    blurBtns.forEach((blurBtn) => {
+      blurBtn.style.backgroundImage = "url('https://i.imgur.com/xG4zQb3.png')";
+    });
+
     blurBarActive = false;
     blurBarIconActive = false;
   });
@@ -323,9 +327,12 @@ function inject() {
   });
 
   //Menu Click
-  blurBtn.addEventListener("click", () => {
-    blurBarIconActive = !blurBarIconActive;
-    blurButtonHandleClick(video, blurBar, blurBtn);
+
+  blurBtns.forEach((blurBtn) => {
+    blurBtn.addEventListener("click", () => {
+      blurBarIconActive = !blurBarIconActive;
+      blurButtonHandleClick(video, blurBar, blurBtn);
+    });
   });
 
   injected = true;
